@@ -28,12 +28,12 @@ workflow AlignmentPipeline {
     mt_aligned_bam: "Output is aligned duplicate marked coordinate sorted bam."
   }
 
-  call GetBwaVersion
+  #call GetBwaVersion
 
   call AlignAndMarkDuplicates {
     input:
       input_bam = input_bam,
-      bwa_version = GetBwaVersion.version,
+      bwa_version = "0.7",
       output_bam_basename = basename + ".realigned",
       ref_fasta = mt_fasta,
       ref_fasta_index = mt_fasta_index,
