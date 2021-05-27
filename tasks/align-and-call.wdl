@@ -246,7 +246,7 @@ CODE
     preemptible: select_first([preemptible_tries, 5])
     memory: "3 GB"
     disks: "local-disk " + disk_size + " HDD"
-    docker: "gatkworkflows/mtdnaserver:1.2"
+    docker: "gcr.io/gpwa-2020f/mtdnaserver:1.2"
   }
   output {
     File contamination_file = "haplochecker_out/~{basename}.contamination.txt"
@@ -304,7 +304,7 @@ task CollectWgsMetrics {
     preemptible: select_first([preemptible_tries, 5])
     memory: "3 GB"
     disks: "local-disk " + disk_size + " HDD"
-    docker: "us.gcr.io/broad-gotc-prod/genomes-in-the-cloud:2.4.2-1552931386"
+    docker: "gcr.io/gpwa-2020f/genomes-in-the-cloud:2.4.2-1552931386"
   }
   output {
     File metrics = "metrics.txt"
@@ -359,7 +359,7 @@ task LiftoverAndCombineVcfs {
     runtime {
       disks: "local-disk " + disk_size + " HDD"
       memory: "1200 MB"
-      docker: "us.gcr.io/broad-gotc-prod/genomes-in-the-cloud:2.4.2-1552931386"
+      docker: "gcr.io/gpwa-2020f/genomes-in-the-cloud:2.4.2-1552931386"
       preemptible: select_first([preemptible_tries, 5])
     }
     output{
@@ -425,7 +425,7 @@ task M2 {
         --max-mnp-distance 0
   >>>
   runtime {
-      docker: "us.gcr.io/broad-gatk/gatk:4.1.1.0"
+      docker: "gcr.io/gpwa-2020f/gatk:4.1.8.0"
       memory: machine_mem + " MB"
       disks: "local-disk " + disk_size + " HDD"
       preemptible: select_first([preemptible_tries, 5])
@@ -506,7 +506,7 @@ task Filter {
 
   >>>
   runtime {
-      docker: "us.gcr.io/broad-gatk/gatk:4.1.1.0"
+      docker: "gcr.io/gpwa-2020f/gatk:4.1.8.0"
       memory: "4 MB"
       disks: "local-disk " + disk_size + " HDD"
       preemptible: select_first([preemptible_tries, 5])
@@ -537,7 +537,7 @@ task MergeStats {
     File stats = "raw.combined.stats"
   }
   runtime {
-      docker: "us.gcr.io/broad-gatk/gatk:4.1.1.0"
+      docker: "gcr.io/gpwa-2020f/gatk:4.1.8.0"
       memory: "3 MB"
       disks: "local-disk 20 HDD"
       preemptible: select_first([preemptible_tries, 5])
