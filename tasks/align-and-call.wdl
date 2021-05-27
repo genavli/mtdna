@@ -9,7 +9,6 @@ workflow AlignAndCall {
 
   input {
     File unmapped_bam
-    Float? autosomal_coverage
 
     File mt_dict
     File mt_fasta
@@ -168,7 +167,6 @@ workflow AlignAndCall {
       m2_extra_filtering_args = m2_filter_extra_args,
       max_alt_allele_count = 4,
       contamination = GetContamination.minor_level,
-      autosomal_coverage = autosomal_coverage,
       vaf_filter_threshold = vaf_filter_threshold,
       blacklisted_sites = blacklisted_sites,
       blacklisted_sites_index = blacklisted_sites_index,
@@ -453,7 +451,6 @@ task Filter {
     String? m2_extra_filtering_args
     Int max_alt_allele_count
     Float contamination
-    Float? autosomal_coverage
     Float? vaf_filter_threshold
     Float? f_score_beta
 
@@ -475,7 +472,6 @@ task Filter {
     description: "Mutect2 Filtering for calling Snps and Indels"
   }
   parameter_meta {
-      autosomal_coverage: "Median coverage of the autosomes for filtering potential polymorphic NuMT variants"
       vaf_filter_threshold: "Hard cutoff for minimum allele fraction. All sites with VAF less than this cutoff will be filtered."
       f_score_beta: "F-Score beta balances the filtering strategy between recall and precision. The relative weight of recall to precision."
   }
@@ -494,7 +490,6 @@ task Filter {
         ~{m2_extra_filtering_args} \
         --max-alt-allele-count ~{max_alt_allele_count} \
         --mitochondria-mode \
-        ~{"--autosomal-coverage " + autosomal_coverage} \
         ~{"--min-allele-fraction " + vaf_filter_threshold} \
         ~{"--f-score-beta " + f_score_beta} \
         --contamination-estimate ~{contamination}

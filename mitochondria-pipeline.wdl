@@ -5,7 +5,6 @@
 ##
 ##  Requirements/expectations :
 ## - BAM or CRAM file
-## - Median of the coverage over the autosome (if available, another central statistic would work too)
 ##
 ## Output :
 ## - A VCF file and its index
@@ -40,7 +39,6 @@ workflow MitochondriaPipeline {
     File wgs_aligned_input_bam_or_cram
     File wgs_aligned_input_bam_or_cram_index
     String contig_name = "chrM"
-    Float? autosomal_coverage
 
     # Read length used for optimization only. If this is too small CollectWgsMetrics might fail, but the results are not
     # affected by this number. Default is 151.
@@ -93,7 +91,6 @@ workflow MitochondriaPipeline {
 
   parameter_meta {
     wgs_aligned_input_bam_or_cram: "Full WGS hg38 bam or cram"
-    autosomal_coverage: "Median coverage of full input bam"
     out_vcf: "Final VCF of mitochondrial SNPs and INDELs"
     vaf_filter_threshold: "Hard threshold for filtering low VAF sites"
     f_score_beta: "F-Score beta balances the filtering strategy between recall and precision. The relative weight of recall to precision."
@@ -121,7 +118,6 @@ workflow MitochondriaPipeline {
   call AlignAndCall.AlignAndCall as AlignAndCall {
     input:
       unmapped_bam = RevertSam.unmapped_bam,
-      autosomal_coverage = autosomal_coverage,
       mt_dict = mt_dict,
       mt_fasta = mt_fasta,
       mt_fasta_index = mt_fasta_index,
